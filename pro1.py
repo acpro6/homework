@@ -6,29 +6,29 @@ import math
 float_formatter = lambda x: "%.3f" % x
 np.set_printoptions(formatter={'float_kind': float_formatter})
 
-# ÔØÈëÊı¾İ¼¯
+# è½½å…¥æ•°æ®é›†
 data = np.loadtxt("magic04.txt",
                   delimiter=",", usecols=(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
-print("Row Data£¨Ô­Ê¼Êı¾İ¼¯£©:\n", data)
+print("Row Dataï¼ˆåŸå§‹æ•°æ®é›†ï¼‰:\n", data)
 
-col_num = np.size(data, axis=1)  # »ñÈ¡Êı¾İ×ÜÁĞÊı
-row_num = np.size(data, axis=0)  # »ñÈ¡Êı¾İĞĞÊı
+col_num = np.size(data, axis=1)  # è·å–æ•°æ®æ€»åˆ—æ•°
+row_num = np.size(data, axis=0)  # è·å–æ•°æ®è¡Œæ•°
 
-mean_vector = np.mean(data, axis=0).reshape(col_num, 1)  # ¼ÆËãMean Vector
-print("Mean Vector£¨¾ùÖµÏòÁ¿£©:\n", mean_vector)
+mean_vector = np.mean(data, axis=0).reshape(col_num, 1)  # è®¡ç®—Mean Vector
+print("Mean Vectorï¼ˆå‡å€¼å‘é‡ï¼‰:\n", mean_vector)
 
-t_mean_vector = np.transpose(mean_vector)  # ×ªÖÃMean Vector
-centered_data_matrix = data - (1 * t_mean_vector)  # ¼ÆËãCentered Data Matrix
-print("Centered Data Matrix£¨ÖĞĞÄÊı¾İ¾ØÕó£©:\n", centered_data_matrix, "\n")
+t_mean_vector = np.transpose(mean_vector)  # è½¬ç½®Mean Vector
+centered_data_matrix = data - (1 * t_mean_vector)  # è®¡ç®—Centered Data Matrix
+print("Centered Data Matrixï¼ˆä¸­å¿ƒæ•°æ®çŸ©é˜µï¼‰:\n", centered_data_matrix, "\n")
 
-t_centered_data_matrix = np.transpose(centered_data_matrix)  # ×ªÖÃCentered Data Matrix
+t_centered_data_matrix = np.transpose(centered_data_matrix)  # è½¬ç½®Centered Data Matrix
 covariance_matrix_inner = (1 / row_num) * np.dot(t_centered_data_matrix, centered_data_matrix)
-# ¼ÆËãÑù±¾Ğ­·½²î¾ØÕó
-print("ÒÔÖĞĞÄÊı¾İ¾ØÕóÁĞÎªÄÚ³Ë»ıµÄÑù±¾Ğ­·½²î¾ØÕó£º\n",
+# è®¡ç®—æ ·æœ¬åæ–¹å·®çŸ©é˜µ
+print("ä»¥ä¸­å¿ƒæ•°æ®çŸ©é˜µåˆ—ä¸ºå†…ä¹˜ç§¯çš„æ ·æœ¬åæ–¹å·®çŸ©é˜µï¼š\n",
       covariance_matrix_inner, "\n")
 
 
-# ¼ÆËãÖĞĞÄÊı¾İµãµÄºÍ
+# è®¡ç®—ä¸­å¿ƒæ•°æ®ç‚¹çš„å’Œ
 def sum_of_centered_points():
     sum = np.zeros(shape=(col_num, col_num))
     for i in range(0, row_num):
@@ -38,48 +38,48 @@ def sum_of_centered_points():
 
 
 covariance_matrix_outer = (1 / row_num) * sum_of_centered_points()
-print("Ñù±¾Ğ­·½²î¾ØÕó×÷ÎªÖĞĞÄÊı¾İµãÖ®¼äµÄÍâ»ı£º\n",
+print("æ ·æœ¬åæ–¹å·®çŸ©é˜µä½œä¸ºä¸­å¿ƒæ•°æ®ç‚¹ä¹‹é—´çš„å¤–ç§¯ï¼š\n",
       covariance_matrix_outer, "\n")
 
 vector1 = np.array(centered_data_matrix[:, 1])
 vector2 = np.array(centered_data_matrix[:, 2])
 
 
-# ¼ÆËãÊôĞÔÏòÁ¿µÄµ¥Î»ÏòÁ¿
+# è®¡ç®—å±æ€§å‘é‡çš„å•ä½å‘é‡
 def unit_vector(vector):
     return vector / np.linalg.norm(vector)
 
 
-# ¼ÆËãÊôĞÔÏòÁ¿Ö®¼äµÄ¼Ğ½Ç
+# è®¡ç®—å±æ€§å‘é‡ä¹‹é—´çš„å¤¹è§’
 def angle_between(v1, v2):
     u_v1 = unit_vector(v1)
     u_v2 = unit_vector(v2)
     return np.arccos(np.clip(np.dot(u_v1, u_v2), -1.0, 1.0))
 
 
-correlation = math.cos(angle_between(vector1, vector2))  # ¼ÆËã¸÷ÊôĞÔ¼äµÄÏà¹ØĞÔ
-print("ÊôĞÔ1ºÍ2Ö®¼äµÄÏà¹ØĞÔ£º %.5f" % correlation, "\n")
+correlation = math.cos(angle_between(vector1, vector2))  # è®¡ç®—å„å±æ€§é—´çš„ç›¸å…³æ€§
+print("å±æ€§1å’Œ2ä¹‹é—´çš„ç›¸å…³æ€§ï¼š %.5f" % correlation, "\n")
 
-variance_vector = np.var(data, axis=0)  # ´´½¨Ò»¸ö·½²îÏòÁ¿
-max_var = np.max(variance_vector)  # ¼ÆËã×î´ó·½²î
-min_var = np.min(variance_vector)  # ¼ÆËã×îĞ¡·½²î
+variance_vector = np.var(data, axis=0)  # åˆ›å»ºä¸€ä¸ªæ–¹å·®å‘é‡
+max_var = np.max(variance_vector)  # è®¡ç®—æœ€å¤§æ–¹å·®
+min_var = np.min(variance_vector)  # è®¡ç®—æœ€å°æ–¹å·®
 
-for i in range(0, col_num):  # ÕÒ³ö×î´ó·½²îÏòÁ¿µÄË÷Òı
+for i in range(0, col_num):  # æ‰¾å‡ºæœ€å¤§æ–¹å·®å‘é‡çš„ç´¢å¼•
     if variance_vector[i] == max_var:
         max_var_index = i
 
-for i in range(0, col_num):  # ÕÒ³ö×îĞ¡·½²îÏòÁ¿µÄË÷Òı
+for i in range(0, col_num):  # æ‰¾å‡ºæœ€å°æ–¹å·®å‘é‡çš„ç´¢å¼•
     if variance_vector[i] == min_var:
         min_var_index = i
 
 print("Max variance = %.3f (Attribute %d )" % (max_var, max_var_index))
 print("Min variance = %.3f (Attribute %d )\n" % (min_var, min_var_index))
 
-covariance_matrix = np.cov(data, rowvar=False)  # ¼ÆËãĞ­·½²î¾ØÕó
-max_cov = np.max(covariance_matrix)  # ÕÒ³öĞ­·½²î¾ØÕóÖĞµÄ×î´óÖµ
-min_cov = np.min(covariance_matrix)  # ÕÒ³öĞ­·½²î¾ØÕóÖĞµÄ×îĞ¡Öµ
+covariance_matrix = np.cov(data, rowvar=False)  # è®¡ç®—åæ–¹å·®çŸ©é˜µ
+max_cov = np.max(covariance_matrix)  # æ‰¾å‡ºåæ–¹å·®çŸ©é˜µä¸­çš„æœ€å¤§å€¼
+min_cov = np.min(covariance_matrix)  # æ‰¾å‡ºåæ–¹å·®çŸ©é˜µä¸­çš„æœ€å°å€¼
 
-# ÀûÓÃforÑ­»·ÕÒ³ö×î´ó×îĞ¡ÖµµÄË÷Òı
+# åˆ©ç”¨forå¾ªç¯æ‰¾å‡ºæœ€å¤§æœ€å°å€¼çš„ç´¢å¼•
 for i in range(0, col_num):
     for j in range(0, col_num):
         if covariance_matrix[i, j] == max_cov:
@@ -95,4 +95,6 @@ for i in range(0, col_num):
 print("Max Covariance = %.3f (Between Attribute %d and %d)" % (max_cov, max_cov_attr1, max_cov_attr2))
 print("Min Covariance = %.3f (Between Attribute %d and %d)" % (min_cov, min_cov_attr1, min_cov_attr2))
 
-
+df = pd.DataFrame(data[:, 1])  # åˆ›å»ºç»˜å›¾æ•°æ®æ¡†
+plt.show(plt.scatter(data[:, 1], data[:, 2], c=("red", "yellow")))  # ç»˜åˆ¶å±æ€§æ•£ç‚¹å›¾
+plt.show(df.plot(kind="density"))  # ç»˜åˆ¶æ¦‚ç‡å¯†åº¦å‡½æ•°
